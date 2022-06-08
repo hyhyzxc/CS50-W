@@ -1,0 +1,75 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    
+    <h2>Listing: {{listing.name}} </h2>
+    <form action = "{% url 'listing' listing.id %}" method = "post">
+        {% csrf_token %}
+        {% if user != listing.lister%}
+            {% if listing in watchlists  %}
+                <input class="btn btn-info" type="submit" name = "unwatchlist" value="Remove From Watchlist">
+            {% else %}
+                <input class="btn btn-info" type="submit" name = "watchlist" value="Watchlist">
+            {% endif %}
+        {% endif %}
+    </form>
+    {% if winner %}
+        <div class = "alert alert-success" role = "alert"> Winner is {{winner.username}} </div>
+    {% endif %}
+    <br>
+    <div> 
+        {{listing.description}}
+    </div>
+    <img src="{{listing.image}}" alt = "No Image" width = "200" height = "200"> </img>
+    <div>
+        <h2> ${{listing.price}} </h2>
+    </div>
+    {% if user != listing.lister %}
+    <div>
+        {{num_bids}} bid(s) so far. Your bid is the current bid. 
+    </div>
+    {% endif %}
+    {% if message %}
+        <div class = "alert alert-danger" role = "alert"> {{message}} </div>
+    {% endif %}
+
+    <form action = "{% url 'listing' listing.id %}" method = "post">
+        {% csrf_token %}
+        {% if listing.closed == False %}
+            {% if user == listing.lister %}
+                <input class = "btn btn-primary" type = "submit" value = "Close Bid">
+            {% else %}
+                <div class="form-group"> 
+                    <input autofocus class="form-control" type="number" name="bid_price" placeholder="Bid">
+                </div>
+                <input class="btn btn-primary" type="submit" value="Place Bid">
+            {% endif %}
+        {% endif %}
+       
+    </form>
+
+    <h3> Details </h3>
+    <ul>
+        <li> Listed by: {{listing.lister.username}} </li>
+        <li> Category: {{listing.category}} </li>
+    </ul>
+
+    <h3> Comments </h3>
+
+    <ol>
+        {% for comment in comments %}
+        <li> {{comment.commenter.username}}: {{comment.comment}} </li>
+        {% endfor %}
+    </ol>
+
+    {% if listing.closed == False and user != listing.lister %}
+        <form action = "{% url 'listing' listing.id %}" method = "post">
+            {% csrf_token %}
+            <div class="form-group"> 
+                <input autofocus class="form-control" type="text" name="comment" placeholder="Make a comment about the item.">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    {% endif %}
+
+{% endblock %}
