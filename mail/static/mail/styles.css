@@ -1,0 +1,33 @@
+textarea {
+    min-height: 400px;
+}
+
+#email{
+    padding: 10px;
+    border-style: ridge;
+    border-width: 2px;
+    border-color: black;
+    font-family: Arial;
+}
+
+#email-recipient{
+    float:left;
+    font-weight: bold;
+}
+
+#email-subject{
+    display: inline-block;
+    margin:0 auto;
+    position: relative;
+    left: 70px;
+}
+
+#email-timestamp{
+    float: right;
+    color: grey;
+}
+
+#email-content{
+    color: black;
+    font-size: large;
+}
