@@ -1,3 +1,3 @@
-# CS50-W
-Projects completed in CS50W
+# Wiki
+
 https://www.youtube.com/watch?v=3EcNXipQxSU
